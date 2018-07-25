@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.campus.dao.UserDao">
+	<resultMap id="userInfo" type="com.campus.pojo.UserInfo">
+		<id property="openid" column="openid" />
+		<result property="sessionKey" column="session_key" />
+		<result property="nickName" column="nickName" />
+		<result property="gender" column="gender" />
+		<result property="city" column="city" />
+		<result property="province" column="province" />
+		<result property="country" column="country" />
+		<result property="language" column="language" />
+		<result property="unionid" column="unionid" />
+		<result property="recentTime" column="recent_time" />
+		<result property="time" column="time" />
+	</resultMap>
+	<resultMap id="cardDetail" type="com.campus.pojo.CardDetail">
+		<id property="shortAccount" column="short_account" />
+		<result property="name" column="name" />
+		<result property="consume" column="consume" />
+		<result property="money" column="money" />
+		<result property="state" column="state" />
+		<result property="account" column="account" />
+		<result property="recentTime" column="recent_time" />
+		<result property="time" column="time" />
+	</resultMap>
+	<resultMap id="pickLost" type="com.campus.pojo.PickLost">
+		<id property="openid" column="openid" />
+		<id property="time" column="time" />
+		<result property="account" column="account" />
+		<result property="owner" column="owner" />
+		<result property="department" column="department" />
+		<result property="ctway" column="ctway" />
+		<result property="message" column="message" />
+		<result property="recentTime" column="recent_time" />
+		<result property="hidden" column="hidden" />
+	</resultMap>
+	<resultMap id="powerInfo" type="com.campus.pojo.PowerInfo">
+		<id property="openid" column="openid" />
+		<result property="roomName" column="room_name" />
+		<result property="buildingId" column="building_id" />
+		<result property="building" column="building" />
+		<result property="time" column="time" />
+	</resultMap>
+
+	<!-- 数据表user_info的CRUD操作 -->
+	<insert id="insertUserInfo" parameterType="com.campus.pojo.UserInfo">
+		insert into
+		user_info(openid,session_key,nickName,gender,city,province,country,language,recent_time)
+		values(#{openid},
+		#{sessionKey},#{nickName},#{gender},#{city},#{province},#{country},#{language},#{recentTime})
+	</insert>
+	<select id="selectUserInfo" resultMap="userInfo" parameterType="string">
+		select * from
+		user_info
+		where openid=#{openid}
+	</select>
+	<select id="selectOpenidCardInfo" resultType="com.campus.pojo.CardInfo"
+		parameterType="string">
+		select * from card_info
+		where openid=#{openid}
+	</select>
+	<select id="selectAccountCardInfo" resultType="com.campus.pojo.CardInfo"
+		parameterType="string">
+		select * from card_info
+		where account=#{account}
+	</select>
+	<update id="updateUserInfo" parameterType="com.campus.pojo.UserInfo">
+		update user_info set
+		session_key=#{sessionKey} , nickName=#{nickName}, province=#{province}
+		,city=#{city} , country=#{country}
+		,language=#{language},gender=#{gender} where openid=#{openid}
+	</update>
+
+	<update id="updateCardInfo" parameterType="com.campus.pojo.CardInfo">
+		update card_info set
+		password=#{password} where openid=#{openid} and account=#{account}
+	</update>
+	<insert id="insertCardInfo" parameterType="com.campus.pojo.CardInfo">
+		insert into
+		card_info(openid,account,password)values(#{openid},#{account},#{password})
+	</insert>
+
+	<select id="selectCardDetail" resultMap="cardDetail"
+		parameterType="string">
+		select * from card_detail where account=#{account}
+	</select>
+
+	<select id="selectCardDetailData" resultType="com.campus.pojo.CardData">
+		<![CDATA[
+		select account,name,consume_time as consumeTime,price,place,type,number,money,status from card_data where account=#{account} and price<0 order by consume_time desc LIMIT 0,10
+		]]>
+	</select>
+
+	<select id="selectCardData" resultType="com.campus.pojo.CardData"
+		parameterType="string">
+		select account,name,consume_time as
+		consumeTime,price,place,type,number,money,status from card_data where
+		account=#{account} order by consume_time desc
+	</select>
+
+	<select id="selectCardDataMonth" resultType="com.campus.pojo.DataMonth"
+		parameterType="string">
+		<![CDATA[
+		select round(SUM(price),2) as price, DATE_FORMAT(consume_time, '%Y-%m') as time from card_data 
+		 where account=#{account} and price<0 GROUP BY DATE_FORMAT(consume_time,
+		'%Y-%m') order by consume_time desc limit 0,5
+		 ]]>
+	</select>
+
+	<select id="selectCardDataPlace" resultType="com.campus.pojo.DataPlace"
+		parameterType="string">
+		<![CDATA[
+		select place,round(SUM(price),2) as price from card_data where account=#{account} and
+		price<0 and DATE_FORMAT(consume_time, '%Y-%m')=DATE_FORMAT(now() ,
+		'%Y-%m') group by place order by consume_time desc
+		 ]]>
+	</select>
+	<select id="selectCardDataFirst" resultType="com.campus.pojo.CardData"
+		parameterType="string">
+		select account,name,consume_time as
+		consumeTime,price,place,type,number,money,status from card_data where
+		account=#{account} order by consume_time desc limit 0,1;
+	</select>
+
+	<insert id="insertPickLost" parameterType="com.campus.pojo.PickLost">
+		insert into pick_lost set
+		<if test="message!=null and message!=''">
+			message=#{message},
+		</if>
+		<if test="ctway!=null and ctway!=''">
+			ctway=#{ctway},
+		</if>
+		<if test="hidden!=null and hidden!=''">
+			hidden=#{hidden},
+		</if>
+		openid=#{openid},account=#{account},owner=#{owner},department=#{department},
+		attribute=#{attribute},recent_time=#{recentTime}
+	</insert>
+	<select id="selectPickLost" resultMap="pickLost" parameterType="string">
+		select * from pick_lost
+		where attribute=#{attribute} and hidden='0' order by
+		recent_time desc
+	</select>
+	<delete id="deleteCardDetail" parameterType="string">
+		delete from
+		card_detail where
+		account=#{account}
+	</delete>
+	<delete id="deleteCardData" parameterType="string">
+		delete from card_info
+		where
+		account=#{account}
+	</delete>
+	<delete id="deleteCardInfo" parameterType="string">
+		delete from card_info
+		where
+		account=#{account}
+	</delete>
+	<insert id="insertFeedBack" parameterType="com.campus.pojo.FeedBack">
+		insert into
+		feedback(openid,title,message)values(#{openid},#{title},#{message})
+	</insert>
+
+	<select id="selectFeedBack" resultType="com.campus.pojo.FeedBack"
+		parameterType="string">
+		select * from feedback where openid=#{openid} order by
+		time
+		desc
+	</select>
+	<insert id="insertPowerInfo" parameterType="com.campus.pojo.PowerInfo">
+		replace into
+		power_info(openid,building,room_name,building_id)values(#{openid},#{building},#{roomName},#{buildingId})
+	</insert>
+
+	<select id="selectPowerInfo" resultMap="powerInfo">
+		select * from power_info
+		where openid=#{openid}
+	</select>
+	<update id="updatePickLost" parameterType="com.campus.pojo.PickLost">
+		update pick_lost set
+		hidden=#{hidden} where openid=#{openid} and time=#{time}
+	</update>
+	<select id="selectReportAll" resultType="com.campus.pojo.PickLost"
+		parameterType="string">
+		select * from pick_lost
+		where openid=#{openid} and
+		hidden='0' order by recent_time desc
+	</select>
+</mapper>

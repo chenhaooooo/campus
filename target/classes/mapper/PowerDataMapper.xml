@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.campus.dao.PowerDataDao">
+	<resultMap id="powerBuyData" type="com.campus.pojo.PowerBuyData">
+		<id property="building" column="building" />
+		<id property="roomName" column="room_name" />
+		<id property="buyTime" column="buy_time" />
+		<result property="buyer" column="buyer" />
+		<result property="form" column="form" />
+		<result property="energy" column="energy" />
+		<result property="money" column="money" />
+		
+		<result property="time" column="time" />
+	</resultMap>
+	<resultMap id="powerUseData" type="com.campus.pojo.PowerUseData">
+		<id property="building" column="building" />
+		<id property="roomName" column="room_name" />
+		<id property="useTime" column="use_time" />
+		<result property="usePower" column="use_power" />
+		<result property="residue" column="residue" />
+		<result property="totalUse" column="total_use" />
+		<result property="totalBuy" column="total_buy" />
+		
+		<result property="time" column="time" />
+	</resultMap>
+	<insert id="insertPowerBuyData" parameterType="java.util.List">
+		insert IGNORE into
+		power_buy_data(building,room_name,buyer,form,energy,money,buy_time)
+		values
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(#{item.building},#{item.roomName},#{item.buyer},#{item.form},#{item.energy},
+			#{item.money},#{item.buyTime})
+		</foreach>
+	</insert>
+	<insert id="insertPowerUseData" parameterType="java.util.List">
+		insert IGNORE into
+		power_use_data(building,room_name,use_power,residue,total_use,total_buy,use_time)
+		values
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(#{item.building},#{item.roomName},#{item.usePower},#{item.residue},#{item.totalUse},
+			#{item.totalBuy},#{item.useTime})
+		</foreach>
+	</insert>
+	<select id="selectFirstPowerBuy" parameterType="com.campus.pojo.PowerInfo"
+		resultMap="powerBuyData">
+		select * from power_buy_data where building=#{building} and
+		room_name=#{roomName} order by buy_time desc limit 1
+	</select>
+	<select id="selectFirstPowerUse" parameterType="com.campus.pojo.PowerInfo"
+		resultMap="powerUseData">
+		select * from power_use_data where building=#{building} and
+		room_name=#{roomName} order by use_time desc limit 1
+	</select>
+	<select id="selectPowerUseData" parameterType="com.campus.pojo.PowerInfo"
+		resultMap="powerUseData">
+		select * from power_use_data where building=#{building} and
+		room_name=#{roomName} order by use_time desc
+	</select>
+	<select id="selectPowerBuyData" parameterType="com.campus.pojo.PowerInfo"
+		resultMap="powerBuyData">
+		select * from power_buy_data where building=#{building} and
+		room_name=#{roomName} order by buy_time desc
+	</select>
+</mapper>

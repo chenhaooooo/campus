@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.campus.dao.CardDataDao">
+	<resultMap id="userInfo" type="com.campus.pojo.UserInfo">
+		<id property="openid" column="openid" />
+		<result property="sessionKey" column="session_key" />
+		<result property="nickName" column="nickName" />
+		<result property="gender" column="gender" />
+		<result property="city" column="city" />
+		<result property="province" column="province" />
+		<result property="country" column="country" />
+		<result property="language" column="language" />
+		<result property="unionid" column="unionid" />
+		<result property="recentTime" column="recent_time" />
+		<result property="time" column="time" />
+	</resultMap>
+
+	<resultMap id="cardDetail" type="com.campus.pojo.CardDetail">
+		<id property="shortAccount" column="short_account" />
+		<result property="name" column="name" />
+		<result property="consume" column="consume" />
+		<result property="money" column="money" />
+		<result property="state" column="state" />
+		<result property="account" column="account" />
+		<result property="recentTime" column="recent_time" />
+		<result property="time" column="time" />
+	</resultMap>
+
+	<insert id="insertCardData" parameterType="java.util.List">
+		insert IGNORE into
+		card_data(account,name,consume_time,price,place,type,number,money,status)
+		values
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(#{item.account},#{item.name},#{item.consumeTime},#{item.price},#{item.place},#{item.type},
+			#{item.number},#{item.money},#{item.status})
+		</foreach>
+
+	</insert>
+
+	<select id="selectCardDetail" parameterType="com.campus.pojo.CardDetail"
+		resultMap="cardDetail">
+		select * from card_detail where
+		short_account=#{shortAccount}
+	</select>
+	<insert id="insertCardDetail" parameterType="com.campus.pojo.CardDetail">
+		replace into
+		card_detail
+		(short_account,account,name,state,money,consume,recent_time)values
+		(#{shortAccount},#{account},#{name},#{state},#{money},#{consume},#{recentTime})
+	</insert>
+	<select id="selectConsume" parameterType="com.campus.pojo.CardDetail"
+		resultType="float">
+
+		select SUM(price) from
+		card_data where account=#{account} 
+		<![CDATA[
+		and DATE_FORMAT(consume_time,'%y-%m')=DATE_FORMAT(NOW(),'%y-%m') and price<0
+		 ]]>
+	</select>
+
+
+</mapper>
