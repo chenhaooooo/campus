@@ -12,7 +12,17 @@ public class FeedBack {
 	private String title;
 	private String message;
 	private String openid;
+
+	public String getReply() {
+		return reply;
+	}
+
+	public void setReply(String reply) {
+		this.reply = reply;
+	}
+
 	private String time;
+	private String re0ply;
 	static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 	public String getTitle() {
@@ -47,4 +57,5 @@ public class FeedBack {
 
 		this.time = sdf.format(time);
 	}
+
 }

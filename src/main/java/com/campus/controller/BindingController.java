@@ -32,10 +32,14 @@ public class BindingController {
 
     /**
      * 绑定校园卡信息
-     * @param openid 小程序用户的唯一标识
-     * @param account 校园卡账号（学号）
-     * @param password 校园卡密码（六位数）
-     * @return 返回绑定结果
+     * @param openid
+     * 小程序用户的唯一标识
+     * @param account
+     * 校园卡账号（学号）
+     * @param password
+     * 校园卡密码（六位数）
+     * @return
+     * 返回绑定结果
      */
     @ResponseBody
     @RequestMapping(value = "binding", method = RequestMethod.POST)
@@ -66,7 +70,7 @@ public class BindingController {
                         //绑定成功
                         json.put("success", VerifyStateEnum.Success);
                         // 开启多线程，获取历史记录
-
+                        crawlCardService.obtainCampus(account,cookie);
                     } else {
                         json.put("success", VerifyStateEnum.Fail);
                     }
@@ -87,8 +91,10 @@ public class BindingController {
 
     /**
      * 删除绑定校园卡
-     * @param openid 小程序用户的唯一标识
-     * @return 返回删除的结果
+     * @param openid
+     * 小程序用户的唯一标识
+     * @return
+     * 返回删除的结果
      */
     @ResponseBody
     @RequestMapping(value = "dtbind", method = RequestMethod.POST)

@@ -33,9 +33,12 @@ public class LostController {
     /**
      * 挂失校园卡
      *
-     * @param openid 小程序用户的唯一标识
-     * @param password 校园卡密码
-     * @return 挂失结果
+     * @param openid
+     * 小程序用户的唯一标识
+     * @param password
+     * 校园卡密码
+     * @return
+     * 挂失结果
      */
     @ResponseBody
     @RequestMapping(value = "lost", method = RequestMethod.POST)

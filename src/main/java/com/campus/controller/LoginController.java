@@ -32,10 +32,14 @@ public class LoginController {
 
     /**
      * 登录信息与绑定信息
-     * @param code 小程序用户的临时code
-     * @param encryptedData 加密信息
-     * @param iv 解密向量
-     * @return 返回openid和是否绑定校园卡
+     * @param code
+     * 小程序用户的临时code
+     * @param encryptedData
+     * 加密信息
+     * @param iv
+     * 解密向量
+     * @return
+     * 返回openid和是否绑定校园卡
      */
     @ResponseBody
     @RequestMapping(value = "/login", method = RequestMethod.POST)

@@ -34,10 +34,14 @@ public class PowerController {
     /**
      * 绑定宿舍
      *
-     * @param openid 小程序用户的唯一标识
-     * @param building 宿舍楼
-     * @param roomName 宿舍号
-     * @param buildingId 宿舍楼id
+     * @param openid
+     * 小程序用户的唯一标识
+     * @param building
+     * 宿舍楼
+     * @param roomName
+     * 宿舍号
+     * @param buildingId
+     * 宿舍楼id
      * @return
      */
     @ResponseBody
@@ -83,10 +87,14 @@ public class PowerController {
     /**
      * 获取电费数据
      *
-     * @param openid 小程序用户的唯一标识
-     * @param attribute 丢失属性
-     * @param page 页码
-     * @return 返回购电/用电数据
+     * @param openid
+     * 小程序用户的唯一标识
+     * @param attribute
+     * 丢失属性
+     * @param page
+     * 页码
+     * @return
+     * 返回购电/用电数据
      */
     @ResponseBody
     @RequestMapping(value = "pwdata", method = RequestMethod.POST)

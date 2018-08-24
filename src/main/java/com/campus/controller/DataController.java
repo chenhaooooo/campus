@@ -41,9 +41,12 @@ public class DataController {
     /**
      * 获取校园卡消费记录详细
      *
-     * @param openid 小程序用户的唯一标识
-     * @param page 页码
-     * @return 返回校园卡消费记录
+     * @param openid
+     * 小程序用户的唯一标识
+     * @param page
+     * 页码
+     * @return
+     * 返回校园卡消费记录
      */
     @ResponseBody
     @RequestMapping(value = "data", method = RequestMethod.POST)
@@ -86,8 +89,10 @@ public class DataController {
     /**
      * 更新校园卡数据
      *
-     * @param openid  小程序用户的唯一标识
-     * @return 返回更新结果
+     * @param openid
+     * 小程序用户的唯一标识
+     * @return
+     * 返回更新结果
      */
     @ResponseBody
     @RequestMapping(value = "obtain", method = RequestMethod.POST)

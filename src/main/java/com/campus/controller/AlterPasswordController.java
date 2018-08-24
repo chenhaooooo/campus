@@ -29,10 +29,14 @@ public class AlterPasswordController {
     /**
      * 修改密码
      *
-     * @param openid 小程序用户的唯一标识
-     * @param password 旧密码
-     * @param newPassword 新密码
-     * @return 返回修改校园卡密码的结果
+     * @param openid
+     * 小程序用户的唯一标识
+     * @param password
+     * 旧密码
+     * @param newPassword
+     * 新密码
+     * @return
+     * 返回修改校园卡密码的结果
      */
     @ResponseBody
     @RequestMapping(value = "alterpwd", method = RequestMethod.POST)

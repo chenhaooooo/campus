@@ -31,13 +31,20 @@ public class PickLostController {
     /**
      * 发布拾/失信息
      *
-     * @param openid 小程序用户的唯一标识
-     * @param owner 校园卡主人
-     * @param account 校园卡账号
-     * @param department 院系
-     * @param ctway 联系方式
-     * @param message 备注信息
-     * @param attribute 拾/失属性
+     * @param openid
+     * 小程序用户的唯一标识
+     * @param owner
+     * 校园卡主人
+     * @param account
+     * 校园卡账号
+     * @param department
+     * 院系
+     * @param ctway
+     * 联系方式
+     * @param message
+     * 备注信息
+     * @param attribute
+     * 拾/失属性
      * @return
      */
     @RequestMapping(value = "picklost", method = RequestMethod.POST)
@@ -90,10 +97,14 @@ public class PickLostController {
     /**
      * 查看拾/失栏
      *
-     * @param openid 小程序用户的唯一标识
-     * @param attribute 拾/失属性
-     * @param page 页码
-     * @return 返回拾/失信息
+     * @param openid
+     * 小程序用户的唯一标识
+     * @param attribute
+     * 拾/失属性
+     * @param page
+     * 页码
+     * @return
+     * 返回拾/失信息
      */
     @RequestMapping(value = "plbar", method = RequestMethod.POST)
     @ResponseBody
@@ -137,7 +148,9 @@ public class PickLostController {
      * 隐藏用户发布信息
      *
      * @param openid
+     * 小程序用户的唯一标识
      * @param time
+     * 时间
      * @return
      */
     @ResponseBody
@@ -174,6 +187,7 @@ public class PickLostController {
      * 获取发布信息
      *
      * @param openid
+     * 小程序用户的唯一标识
      * @return
      */
     @ResponseBody

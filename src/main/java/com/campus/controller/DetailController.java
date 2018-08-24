@@ -32,8 +32,10 @@ public class DetailController {
     /**
      * 获取校园卡详细信息
      *
-     * @param openid 小程序用户的唯一标识
-     * @return 校园卡详细信息
+     * @param openid
+     * 小程序用户的唯一标识
+     * @return
+     * 校园卡详细信息
      */
     @ResponseBody
     @RequestMapping(value = "detail", method = RequestMethod.POST)

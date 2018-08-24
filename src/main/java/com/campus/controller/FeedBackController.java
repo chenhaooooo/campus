@@ -29,10 +29,14 @@ public class FeedBackController {
     /**
      * 反馈信息提交
      *
-     * @param openid 小程序用户的唯一标识
-     * @param title 反馈信息的标题
-     * @param message 反馈信息的内容
-     * @return 提交结果
+     * @param openid
+     * 小程序用户的唯一标识
+     * @param title
+     * 反馈信息的标题
+     * @param message
+     * 反馈信息的内容
+     * @return
+     * 提交结果
      */
     @ResponseBody
     @RequestMapping(value = "fbcommit")
@@ -74,8 +78,10 @@ public class FeedBackController {
     /**
      * 获取全部反馈信息
      *
-     * @param openid 小程序用户的唯一标识
-     * @return 返回用户全部的反馈信息
+     * @param openid
+     * 小程序用户的唯一标识
+     * @return
+     * 返回用户全部的反馈信息
      */
     @ResponseBody
     @RequestMapping(value = "fball",method=RequestMethod.POST)

@@ -142,6 +142,16 @@ public class CrawlCardServiceImpl implements CrawlCardService {
                 int year = cal1.get(Calendar.YEAR);
                 int month = cal1.get(Calendar.MONTH) + 1;
                 int dats = cal1.get(Calendar.DATE);
+                //这里设置是防止上次更新那天部分数据能够补上，避免缺失
+                if(dats>1)
+                {
+                    dats=dats-1;
+                }
+                else if(month>1)
+                {
+                    month=month-1;
+
+                }
                 if (month < 10) {
                     inputStartDate = year + "0" + month + "" + dats;
                 } else {

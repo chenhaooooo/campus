@@ -28,8 +28,10 @@ public class AnalyseController {
 
     /**
      * 对校园卡消费数据进行分析返回
-     * @param openid 小程序用户的唯一标识
-     * @return 返回最近4个月的消费情况（每个月的总额），当前月份消费地点
+     * @param openid
+     * 小程序用户的唯一标识
+     * @return
+     * 返回最近4个月的消费情况（每个月的总额），当前月份消费地点
      */
     @RequestMapping(value = "analyse", method = RequestMethod.POST)
     @ResponseBody
