@@ -1,7 +1,8 @@
 package com.campus.service;
 
 
-
+import com.campus.exception.PasswordErrorException;
+import com.campus.pojo.SouthPowerInfo;
 
 public interface CrawlPowerService {
 	/**
@@ -19,4 +20,7 @@ public interface CrawlPowerService {
 	 * @param buildingId
 	 */
 	public void obtainPowerBuy(String building,String roomName, String buildingId);
+
+
+	public void obtainSouthPower(SouthPowerInfo southPowerInfo,Boolean insert) throws PasswordErrorException;
 }

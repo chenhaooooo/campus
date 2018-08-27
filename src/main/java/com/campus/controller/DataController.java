@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.campus.enums.VerifyStateEnum;
+import com.campus.exception.PasswordErrorException;
+import com.campus.pojo.SouthPowerInfo;
+import org.bouncycastle.openssl.PasswordException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -141,6 +144,25 @@ public class DataController {
 
                 }).start();
 
+            }
+            final SouthPowerInfo southPowerInfo = userService.selectSouthPowerInfo(openid);
+            if(southPowerInfo != null)
+            {
+
+
+                new Thread(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        try {
+                            crawlPowerService.obtainSouthPower(southPowerInfo,false);
+                        } catch (PasswordErrorException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+
+                }).start();
             }
 
         }

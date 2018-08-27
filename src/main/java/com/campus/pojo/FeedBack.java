@@ -4,6 +4,7 @@ package com.campus.pojo;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -11,6 +12,8 @@ import org.springframework.stereotype.Component;
 public class FeedBack {
 	private String title;
 	private String message;
+	//忽略此字段返回
+	@JsonIgnore
 	private String openid;
 
 	public String getReply() {
@@ -22,7 +25,7 @@ public class FeedBack {
 	}
 
 	private String time;
-	private String re0ply;
+	private String reply;
 	static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 	public String getTitle() {

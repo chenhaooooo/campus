@@ -11,6 +11,7 @@
 			spring-dao.xml,spring-service.xml,spring-web.xml
 			Mybatis - > spring -> springmvc
 		 -->
+
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
 			<param-value>classpath:spring/spring-*.xml</param-value>

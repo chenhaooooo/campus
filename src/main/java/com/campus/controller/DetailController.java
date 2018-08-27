@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.campus.enums.VerifyStateEnum;
+import com.campus.pojo.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +15,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.campus.pojo.CardDetail;
-import com.campus.pojo.CardInfo;
-import com.campus.pojo.PowerInfo;
-import com.campus.pojo.PowerUseData;
 import com.campus.service.UserService;
 
 /**
@@ -64,6 +61,16 @@ public class DetailController {
                     pwInfo.put("roomname", powerInfo.getRoomName());
                     PowerUseData powerUseData = userService.selectFirstPowerUse(powerInfo);
                     json.put("pwdata", powerUseData);
+                    pwInfo.put("pwtype",1);//北苑
+                }
+
+                SouthPowerInfo southPowerInfo=userService.selectSouthPowerInfo(openid);
+                if (southPowerInfo != null) {
+                    String roomName=southPowerInfo.getRoomName();
+                    pwInfo.put("roomname", roomName);
+                    SouthPowerUseData southPowerUseData = userService.selectFirstSouthPowerUse(southPowerInfo);
+                    json.put("pwdata", southPowerUseData);
+                    pwInfo.put("pwtype",0);//南苑
                 }
                 json.put("pwinfo", pwInfo);
                 json.put("info", cardDetail);

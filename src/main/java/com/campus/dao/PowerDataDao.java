@@ -3,11 +3,8 @@ package com.campus.dao;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.campus.pojo.*;
 import org.apache.ibatis.annotations.Param;
-
-import com.campus.pojo.PowerBuyData;
-import com.campus.pojo.PowerInfo;
-import com.campus.pojo.PowerUseData;
 
 
 public interface PowerDataDao {
@@ -59,4 +56,16 @@ public interface PowerDataDao {
      */
     public List<PowerBuyData> selectPowerBuyData(PowerInfo powerInfo);
 
+
+
+    public int insertSouthPowerBuyData(@Param("list") LinkedList<SouthPowerUseData> list);
+
+
+    public int insertSouthPowerUseData(@Param("list") LinkedList<SouthPowerBuyData> list);
+
+
+    public List<SouthPowerUseData> selectSouthPowerUseData(SouthPowerInfo southPowerInfo);
+    public List<SouthPowerBuyData> selectSouthPowerBuyData(SouthPowerInfo southPowerInfo);
+    public SouthPowerBuyData selectFirstSouthPowerBuy(SouthPowerInfo southPowerInfo);
+    public SouthPowerUseData selectFirstSouthPowerUse(SouthPowerInfo southPowerInfo);
 }

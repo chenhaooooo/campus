@@ -55,7 +55,7 @@
 	<select id="selectConsume" parameterType="com.campus.pojo.CardDetail"
 		resultType="float">
 
-		select SUM(price) from
+		select IFNULL(SUM(price),0) from
 		card_data where account=#{account} 
 		<![CDATA[
 		and DATE_FORMAT(consume_time,'%y-%m')=DATE_FORMAT(NOW(),'%y-%m') and price<0

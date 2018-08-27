@@ -3,10 +3,13 @@ package com.campus.pojo;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 public class PickLost {
+	//忽略此字段返回
+	@JsonIgnore
 	private String openid;
 	private String account;
 	private String owner;

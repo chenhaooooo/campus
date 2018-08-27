@@ -26,6 +26,36 @@
 		
 		<result property="time" column="time" />
 	</resultMap>
+
+
+	<resultMap id="southPowerUseData" type="com.campus.pojo.SouthPowerUseData">
+		<id property="buildingId" column="building_id" />
+		<id property="roomId" column="room_id" />
+		<id property="useTime" column="use_time"/>
+		<result property="roomName" column="room_name"/>
+		<result property="usePower" column="use_power"/>
+		<result property="money" column="money"/>
+		<result property="residue" column="residue"/>
+		<result property="useTime" column="use_time"/>
+		<result property="time" column="time"/>
+	</resultMap>
+	
+	<resultMap id="southPowerBuyData" type="com.campus.pojo.SouthPowerBuyData">
+		<id property="buildingId" column="building_id"/>
+		<id property="roomId" column="room_id"/>
+		<id property="buyTime" column="buy_time"/>
+		<result property="ammeter" column="ammeter"/>
+		<result property="buyType" column="buy_type"/>
+		<result property="number" column="number"/>
+		<result property="money" column="money"/>
+		<result property="buyer" column="buyer"/>
+		<result property="down" column="down"/>
+		<result property="downTime" column="down_time"/>
+		<result property="time" column="time"/>
+	</resultMap>
+
+
+
 	<insert id="insertPowerBuyData" parameterType="java.util.List">
 		insert IGNORE into
 		power_buy_data(building,room_name,buyer,form,energy,money,buy_time)
@@ -66,4 +96,54 @@
 		select * from power_buy_data where building=#{building} and
 		room_name=#{roomName} order by buy_time desc
 	</select>
+
+	<insert id="insertSouthPowerUseData" parameterType="java.util.List">
+		insert IGNORE into
+		south_power_use_data(building_id,room_id,room_name,use_power,money,residue,use_time)
+		values
+		<foreach collection="list" item="item" index="index"
+				 separator=",">
+			(#{item.buildingId},#{item.roomId},#{item.roomName},#{item.usePower},#{item.money},
+			#{item.residue},#{item.useTime})
+		</foreach>
+	</insert>
+
+	<insert id="insertSouthPowerBuyData" parameterType="java.util.List">
+		insert IGNORE into
+		south_power_buy_data(building_id,room_id,room_name,ammeter,buy_type,number,money,buy_time,buyer,down,down_time)
+		values
+		<foreach collection="list" item="item" index="index"
+				 separator=",">
+			(#{item.buildingId},#{item.roomId},#{item.roomName},#{item.ammeter},#{item.buyType},#{item.number},
+			#{item.money},#{item.buyTime},#{item.buyer},#{item.down},#{item.downTime})
+		</foreach>
+	</insert>
+
+	<select id="selectSouthPowerBuyData" parameterType="com.campus.pojo.SouthPowerInfo"
+			resultMap="southPowerBuyData">
+		select * from south_power_buy_data where building_id=#{buildingId} and
+		room_id=#{roomId} order by buy_time desc
+	</select>
+
+	<select id="selectSouthPowerUseData" parameterType="com.campus.pojo.SouthPowerInfo"
+			resultMap="southPowerUseData">
+		select * from south_power_use_data where building_id=#{buildingId} and
+		room_id=#{roomId} order by use_time desc
+	</select>
+
+
+
+	<select id="selectFirstSouthPowerUse" parameterType="com.campus.pojo.SouthPowerInfo"
+			resultMap="southPowerUseData">
+		select * from south_power_use_data where building_id=#{buildingId} and
+		room_id=#{roomId} order by use_time desc limit 1
+	</select>
+
+
+	<select id="selectFirstSouthPowerBuy" parameterType="com.campus.pojo.SouthPowerInfo"
+			resultMap="southPowerBuyData">
+		select * from south_power_buy_data where building_id=#{buildingId} and
+		room_id=#{roomId} order by buy_time desc limit 1
+	</select>
+
 </mapper>

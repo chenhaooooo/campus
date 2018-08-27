@@ -2,13 +2,7 @@ package com.campus.dao;
 
 import java.util.List;
 
-import com.campus.pojo.CardData;
-import com.campus.pojo.CardDetail;
-import com.campus.pojo.CardInfo;
-import com.campus.pojo.FeedBack;
-import com.campus.pojo.PickLost;
-import com.campus.pojo.PowerInfo;
-import com.campus.pojo.UserInfo;
+import com.campus.pojo.*;
 
 
 public interface UserDao {
@@ -204,5 +198,10 @@ public interface UserDao {
      */
     public PowerInfo selectPowerInfo(String openid);
 
+    public int insertSouthPowerInfo(SouthPowerInfo southPowerInfo);
 
+
+    public SouthPowerInfo selectSouthPowerInfo(String openid);
+    public int deletePowerInfo(String openid);
+    public int deleteSouthPowerInfo(String openid);
 }

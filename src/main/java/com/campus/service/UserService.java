@@ -3,15 +3,7 @@ package com.campus.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.campus.pojo.CardData;
-import com.campus.pojo.CardDetail;
-import com.campus.pojo.CardInfo;
-import com.campus.pojo.FeedBack;
-import com.campus.pojo.PickLost;
-import com.campus.pojo.PowerBuyData;
-import com.campus.pojo.PowerInfo;
-import com.campus.pojo.PowerUseData;
-import com.campus.pojo.UserInfo;
+import com.campus.pojo.*;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
@@ -258,4 +250,18 @@ public interface UserService {
      */
 
     public int deleteBinding(CardInfo cardInfo);
+
+
+    public List<SouthPowerUseData> selectSouthPowerUseData(SouthPowerInfo southPowerInfo, int startPage, int PageSize);
+    public List<SouthPowerBuyData> selectSouthPowerBuyData(SouthPowerInfo southPowerInfo, int startPage, int PageSize);
+    public SouthPowerInfo selectSouthPowerInfo(String openid);
+    public int deletePowerInfo(String openid);
+    public int deleteSouthPowerInfo(String openid);
+
+
+    public SouthPowerBuyData selectFirstSouthPowerBuy(SouthPowerInfo southPowerInfo);
+
+
+    public SouthPowerUseData selectFirstSouthPowerUse(SouthPowerInfo SouthPowerInfo);
+
 }

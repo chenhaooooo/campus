@@ -2,15 +2,7 @@ package com.campus.service.impl;
 
 import com.campus.dao.PowerDataDao;
 import com.campus.dao.UserDao;
-import com.campus.pojo.CardData;
-import com.campus.pojo.CardDetail;
-import com.campus.pojo.CardInfo;
-import com.campus.pojo.FeedBack;
-import com.campus.pojo.PickLost;
-import com.campus.pojo.PowerBuyData;
-import com.campus.pojo.PowerInfo;
-import com.campus.pojo.PowerUseData;
-import com.campus.pojo.UserInfo;
+import com.campus.pojo.*;
 import com.campus.service.UserService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -361,6 +353,49 @@ public class UserServiceImpl implements UserService {
 
         return userDao.deleteCardData(cardInfo.getAccount()) + userDao.deleteCardDetail(cardInfo.getAccount())
                 + userDao.deleteCardInfo(cardInfo.getAccount());
+    }
+
+    @Override
+    public List<SouthPowerUseData> selectSouthPowerUseData(SouthPowerInfo southPowerInfo, int startPage, int PageSize) {
+        PageHelper.startPage(startPage, PageSize);
+        List<SouthPowerUseData> southPowerUseDatas = new ArrayList<>();
+        southPowerUseDatas = powerDataDao.selectSouthPowerUseData(southPowerInfo);
+        PageInfo pi = new PageInfo(southPowerUseDatas);
+        return pi.getList();
+    }
+
+    @Override
+    public List<SouthPowerBuyData> selectSouthPowerBuyData(SouthPowerInfo southPowerInfo, int startPage, int PageSize) {
+        PageHelper.startPage(startPage, PageSize);
+        List<SouthPowerBuyData> southPowerBuyDatas = new ArrayList<>();
+        southPowerBuyDatas = powerDataDao.selectSouthPowerBuyData(southPowerInfo);
+        PageInfo pi = new PageInfo(southPowerBuyDatas);
+        return pi.getList();
+    }
+
+    @Override
+    public SouthPowerInfo selectSouthPowerInfo(String openid) {
+        return userDao.selectSouthPowerInfo(openid);
+    }
+
+    @Override
+    public int deletePowerInfo(String openid) {
+        return userDao.deletePowerInfo(openid);
+    }
+
+    @Override
+    public int deleteSouthPowerInfo(String openid) {
+        return userDao.deleteSouthPowerInfo(openid);
+    }
+
+    @Override
+    public SouthPowerBuyData selectFirstSouthPowerBuy(SouthPowerInfo southPowerInfo) {
+        return powerDataDao.selectFirstSouthPowerBuy(southPowerInfo);
+    }
+
+    @Override
+    public SouthPowerUseData selectFirstSouthPowerUse(SouthPowerInfo SouthPowerInfo) {
+        return powerDataDao.selectFirstSouthPowerUse(SouthPowerInfo);
     }
 
 }

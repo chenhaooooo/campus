@@ -46,6 +46,15 @@
 		<result property="time" column="time" />
 	</resultMap>
 
+	<resultMap id="southPowerInfo" type="com.campus.pojo.SouthPowerInfo">
+		<id  property="openid" column="openid"/>
+		<result property="buildingId" column="building_id"/>
+		<result property="roomId" column="room_id"/>
+		<result property="password" column="password"/>
+		<result property="time" column="time"/>
+		<result property="roomName" column="room_name"/>
+	</resultMap>
+
 	<!-- 数据表user_info的CRUD操作 -->
 	<insert id="insertUserInfo" parameterType="com.campus.pojo.UserInfo">
 		insert into
@@ -190,4 +199,23 @@
 		where openid=#{openid} and
 		hidden='0' order by recent_time desc
 	</select>
+
+	<insert id="insertSouthPowerInfo" parameterType="com.campus.pojo.SouthPowerInfo">
+		replace into
+		south_power_info(openid,building_id,room_id,room_name,password)values(#{openid},#{buildingId},#{roomId},#{roomName},#{password})
+
+	</insert>
+
+	<select id="selectSouthPowerInfo" resultMap="southPowerInfo">
+		select * from south_power_info where openid=#{openid}
+	</select>
+
+	<delete id="deletePowerInfo" >
+		delete from power_info where openid=#{openid}
+	</delete>
+
+
+	<delete id="deleteSouthPowerInfo" >
+		delete from south_power_info where openid=#{openid}
+	</delete>
 </mapper>

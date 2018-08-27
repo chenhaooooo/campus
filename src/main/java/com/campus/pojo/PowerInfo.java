@@ -1,5 +1,7 @@
 package com.campus.pojo;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 public class PowerInfo {
 	private String openid;
 	private String building;
@@ -21,7 +23,8 @@ public class PowerInfo {
 	public void setBuildingId(String buildingId) {
 		this.buildingId = buildingId;
 	}
-
+	//忽略此字段返回
+	@JsonIgnore
 	public String getOpenid() {
 		return openid;
 	}
