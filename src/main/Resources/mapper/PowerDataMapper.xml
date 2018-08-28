@@ -48,6 +48,7 @@
 		<result property="buyType" column="buy_type"/>
 		<result property="number" column="number"/>
 		<result property="money" column="money"/>
+		<result property="energy" column="energy"/>
 		<result property="buyer" column="buyer"/>
 		<result property="down" column="down"/>
 		<result property="downTime" column="down_time"/>
@@ -110,12 +111,14 @@
 
 	<insert id="insertSouthPowerBuyData" parameterType="java.util.List">
 		insert IGNORE into
-		south_power_buy_data(building_id,room_id,room_name,ammeter,buy_type,number,money,buy_time,buyer,down,down_time)
+		south_power_buy_data(building_id,room_id,room_name,ammeter,buy_type,number,money,
+		energy,buy_time,buyer,down,down_time)
 		values
 		<foreach collection="list" item="item" index="index"
 				 separator=",">
-			(#{item.buildingId},#{item.roomId},#{item.roomName},#{item.ammeter},#{item.buyType},#{item.number},
-			#{item.money},#{item.buyTime},#{item.buyer},#{item.down},#{item.downTime})
+			(#{item.buildingId},#{item.roomId},#{item.roomName},#{item.ammeter},#{item.buyType},
+			#{item.number},
+			#{item.money},#{item.energy},#{item.buyTime},#{item.buyer},#{item.down},#{item.downTime})
 		</foreach>
 	</insert>
 

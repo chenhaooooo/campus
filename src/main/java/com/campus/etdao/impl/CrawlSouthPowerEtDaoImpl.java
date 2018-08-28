@@ -385,7 +385,6 @@ public class CrawlSouthPowerEtDaoImpl implements CrawlSouthPowerEtDao {
         }
         if (!temp.equals("")) {
             temp = temp.split("\\(")[1];
-            System.out.println(temp);
             JSONArray list = JSONArray.fromObject(temp);
             Iterator it = list.iterator();
             LinkedList southList = new LinkedList();
@@ -404,6 +403,7 @@ public class CrawlSouthPowerEtDaoImpl implements CrawlSouthPowerEtDao {
                 southPowerBuyData.setBuyer(list2.get(6).toString().trim());
                 southPowerBuyData.setDown(list2.get(7).toString().trim());
                 southPowerBuyData.setDownTime(list2.get(8).toString().trim());
+                southPowerBuyData.setEnergy(Float.parseFloat(list2.get(4).toString().trim())/cost);
                 southList.add(southPowerBuyData);
             }
             return southList;

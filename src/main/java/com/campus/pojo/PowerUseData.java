@@ -1,5 +1,7 @@
 package com.campus.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -12,6 +14,8 @@ public class PowerUseData {
 	private String totalUse;
 	private String totalBuy;
 	private String useTime;
+	//忽略此字段返回
+	@JsonIgnore
 	private String time;
 	static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 

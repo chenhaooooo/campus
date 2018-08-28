@@ -1,11 +1,11 @@
 package com.campus.pojo;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
+
 
 public class PickLost {
 	//忽略此字段返回
@@ -17,6 +17,7 @@ public class PickLost {
 	private String ctway;
 	private String message;
 	private String attribute;
+	@JsonIgnore
 	private String recentTime;
 	private String hidden;
 	private String time;
@@ -79,7 +80,11 @@ public class PickLost {
 		return time;
 	}
 	public void setTime(String time) {
-		this.time = time;
+		try {
+			this.time = sdf.format(sdf.parse(time));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 	}
 	
 }

@@ -3,7 +3,13 @@ package com.campus.pojo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
 public class SouthPowerUseData {
+    static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    DecimalFormat df   = new DecimalFormat("######0.00");
     //忽略此字段返回
     @JsonIgnore
     private String buildingId;
@@ -48,7 +54,7 @@ public class SouthPowerUseData {
     }
 
     public void setUsePower(float usePower) {
-        this.usePower = usePower;
+        this.usePower = Float.parseFloat(df.format(usePower));
     }
 
     public float getResidue() {
@@ -56,7 +62,7 @@ public class SouthPowerUseData {
     }
 
     public void setResidue(float residue) {
-        this.residue = residue;
+        this.residue = Float.parseFloat(df.format(residue));
     }
 
     public float getMoney() {
@@ -64,7 +70,7 @@ public class SouthPowerUseData {
     }
 
     public void setMoney(float money) {
-        this.money = money;
+        this.money = Float.parseFloat(df.format(money));
     }
 
     public String getUseTime() {
@@ -72,7 +78,11 @@ public class SouthPowerUseData {
     }
 
     public void setUseTime(String useTime) {
-        this.useTime = useTime;
+        try {
+            this.useTime = sdf.format(sdf.parse(useTime));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     public String getTime() {
@@ -80,6 +90,10 @@ public class SouthPowerUseData {
     }
 
     public void setTime(String time) {
-        this.time = time;
+        try {
+            this.time = sdf.format(sdf.parse(time));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 }

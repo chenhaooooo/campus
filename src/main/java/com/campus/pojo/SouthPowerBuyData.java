@@ -3,7 +3,17 @@ package com.campus.pojo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
+
 public class SouthPowerBuyData {
+    static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+
+    DecimalFormat df   = new DecimalFormat("######0.00");
+
     //忽略此字段返回
     @JsonIgnore
     private String buildingId;
@@ -30,6 +40,15 @@ public class SouthPowerBuyData {
     @JsonIgnore
     private String time;
     private String buyType;
+    private float energy;
+
+    public float getEnergy() {
+        return energy;
+    }
+
+    public void setEnergy(float energy) {
+        this.energy = Float.parseFloat(df.format(energy));
+    }
 
     public String getBuyType() {
         return buyType;
@@ -84,7 +103,7 @@ public class SouthPowerBuyData {
     }
 
     public void setMoney(float money) {
-        this.money = money;
+        this.money = Float.parseFloat(df.format(money));
     }
 
     public String getBuyTime() {
@@ -92,7 +111,11 @@ public class SouthPowerBuyData {
     }
 
     public void setBuyTime(String buyTime) {
-        this.buyTime = buyTime;
+        try {
+            this.buyTime = sdf.format(sdf.parse(buyTime));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     public String getBuyer() {
@@ -116,7 +139,11 @@ public class SouthPowerBuyData {
     }
 
     public void setDownTime(String downTime) {
-        this.downTime = downTime;
+        try {
+            this.downTime = sdf.format(sdf.parse(downTime));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        };
     }
 
     public String getTime() {
@@ -124,6 +151,10 @@ public class SouthPowerBuyData {
     }
 
     public void setTime(String time) {
-        this.time = time;
+        try {
+            this.time = sdf.format(sdf.parse(time));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 }

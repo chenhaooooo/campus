@@ -1,5 +1,7 @@
 package com.campus.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -7,11 +9,16 @@ import java.util.Date;
 public class PowerBuyData {
 	private String building;
 	private String roomName;
+	//忽略此字段返回
+	@JsonIgnore
 	private String buyer;
+
 	private String form;
 	private String energy;
 	private String money;
 	private String buyTime;
+	//忽略此字段返回
+	@JsonIgnore
 	private String time;
 	static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 

@@ -191,7 +191,7 @@
 	</select>
 	<update id="updatePickLost" parameterType="com.campus.pojo.PickLost">
 		update pick_lost set
-		hidden=#{hidden} where openid=#{openid} and time=#{time}
+		hidden=#{hidden} where openid=#{openid} and recent_time=#{time}
 	</update>
 	<select id="selectReportAll" resultType="com.campus.pojo.PickLost"
 		parameterType="string">
