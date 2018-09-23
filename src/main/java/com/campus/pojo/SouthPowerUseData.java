@@ -16,6 +16,8 @@ public class SouthPowerUseData {
     //忽略此字段返回
     @JsonIgnore
     private String roomId;
+    //忽略此字段返回
+    @JsonIgnore
     private String roomName;
     private float usePower;
     private float residue;
@@ -24,6 +26,17 @@ public class SouthPowerUseData {
     //忽略此字段返回
     @JsonIgnore
     private String time;
+
+    private String room;
+
+    public String getRoom() {
+        room=this.roomName;
+        return room;
+    }
+
+    public void setRoom(String room) {
+        this.room = room;
+    }
 
     public String getBuildingId() {
         return buildingId;

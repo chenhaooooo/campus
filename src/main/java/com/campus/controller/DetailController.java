@@ -57,8 +57,7 @@ public class DetailController {
                 PowerInfo powerInfo = userService.selectPowerInfo(openid);
                 HashMap pwInfo = new HashMap();
                 if (powerInfo != null) {
-                    pwInfo.put("building", powerInfo.getBuilding());
-                    pwInfo.put("roomname", powerInfo.getRoomName());
+                    pwInfo.put("room", powerInfo.getRoom());
                     PowerUseData powerUseData = userService.selectFirstPowerUse(powerInfo);
                     json.put("pwdata", powerUseData);
                     pwInfo.put("pwtype",1);//北苑
@@ -66,8 +65,7 @@ public class DetailController {
 
                 SouthPowerInfo southPowerInfo=userService.selectSouthPowerInfo(openid);
                 if (southPowerInfo != null) {
-                    String roomName=southPowerInfo.getRoomName();
-                    pwInfo.put("roomname", roomName);
+                    pwInfo.put("room", southPowerInfo.getRoom());
                     SouthPowerUseData southPowerUseData = userService.selectFirstSouthPowerUse(southPowerInfo);
                     json.put("pwdata", southPowerUseData);
                     pwInfo.put("pwtype",0);//南苑

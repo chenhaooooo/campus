@@ -46,48 +46,101 @@ public class PowerController {
     @ResponseBody
     @RequestMapping(value = "pwbind", method = RequestMethod.POST)
     public Object powerBind(@RequestParam(value = "openid") String openid,
-                            @RequestParam(value = "building") String building, @RequestParam(value = "roomname") String roomName,
-                            @RequestParam(value = "buildingid") String buildingId) {
-        building = building.trim();
-        roomName = roomName.trim();
+                            @RequestParam(value = "building") String building,
+                            @RequestParam(value = "roomname") String roomName,
+                            @RequestParam(value = "buildingid") String buildingId,
+                            @RequestParam(value="password")String password,
+                            @RequestParam(value="pwtype")String pwtype) {
+
         openid = openid.trim();
+        pwtype=pwtype.trim();
         HashMap<String, Object> json = new HashMap<String, Object>();
-        //参数为空
-        if (building.equals("") || roomName.equals("") || openid.equals("") || buildingId.equals("")) {
-            json.put("errmsg", VerifyStateEnum.Invalid);
-        }
-        //根据openid查询，不存在此用户
-        else if (userService.selectUserInfo(openid) == null) {
-            json.put("errmsg", VerifyStateEnum.Invalid);
-        } else {
-            SouthPowerInfo southPowerInfo = userService.selectSouthPowerInfo(openid);
-            if (southPowerInfo != null) {
-                int number = userService.deleteSouthPowerInfo(openid);
-                if (number == 0) {
-                    json.put("errmsg", VerifyStateEnum.Fail);//删除失败
+        if(pwtype.equals("1"))
+        {
+            building = building.trim();
+            roomName = roomName.trim();
+            buildingId=buildingId.trim();
+            //参数为空
+            if (building.equals("") || roomName.equals("") || openid.equals("") || buildingId.equals("")) {
+                json.put("errmsg", VerifyStateEnum.Invalid);
+            }
+            //根据openid查询，不存在此用户
+            else if (userService.selectUserInfo(openid) == null) {
+                json.put("errmsg", VerifyStateEnum.Invalid);
+            } else {
+                SouthPowerInfo southPowerInfo = userService.selectSouthPowerInfo(openid);
+                if (southPowerInfo != null) {
+                    int number = userService.deleteSouthPowerInfo(openid);
+                    if (number == 0) {
+                        json.put("errmsg", VerifyStateEnum.Fail);//删除失败
+                    }
+                }
+                PowerInfo powerInfo = new PowerInfo();
+                powerInfo.setOpenid(openid);
+                powerInfo.setBuilding(building);
+                powerInfo.setBuildingId(buildingId);
+                powerInfo.setRoomName(roomName);
+                //绑定宿舍信息
+                int num = userService.insertPowerInfo(powerInfo);
+                //绑定成功
+                if (num > 0) {
+                    json.put("success", VerifyStateEnum.Success);
+                    //获取宿舍购电情况并存储
+                    crawlPowerService.obtainPowerBuy(building, roomName, buildingId);
+                    //获取宿舍用电情况并存储
+                    crawlPowerService.obtainPowerUse(building, roomName, buildingId);
+                }
+                //绑定失败
+                else {
+                    json.put("success", VerifyStateEnum.Fail);
                 }
             }
-            PowerInfo powerInfo = new PowerInfo();
-            powerInfo.setOpenid(openid);
-            powerInfo.setBuilding(building);
-            powerInfo.setBuildingId(buildingId);
-            powerInfo.setRoomName(roomName);
-            //绑定宿舍信息
-            int num = userService.insertPowerInfo(powerInfo);
-            //绑定成功
-            if (num > 0) {
-                json.put("success", VerifyStateEnum.Success);
-                //获取宿舍购电情况并存储
-                crawlPowerService.obtainPowerBuy(building, roomName, buildingId);
-                //获取宿舍用电情况并存储
-                crawlPowerService.obtainPowerUse(building, roomName, buildingId);
-            }
-            //绑定失败
-            else {
-                json.put("success", VerifyStateEnum.Fail);
-            }
+            return json;
         }
-        return json;
+        else if(pwtype.equals("0"))
+        {
+            buildingId = buildingId.trim();
+            String roomId = roomName.trim();
+            openid = openid.trim();
+            password = password.trim();
+            //参数为空
+            if (buildingId.equals("") || roomId.equals("") || openid.equals("")) {
+                json.put("errmsg", VerifyStateEnum.Invalid);
+            }
+            //根据openid查询，不存在此用户
+            else if (userService.selectUserInfo(openid) == null) {
+                json.put("errmsg", VerifyStateEnum.Invalid);
+            } else {
+                PowerInfo powerInfo = userService.selectPowerInfo(openid);
+                if (powerInfo != null) {
+                    int number = userService.deletePowerInfo(openid);
+                    if (number == 0) {
+                        json.put("errmsg", VerifyStateEnum.Fail);//删除失败，即绑定失败
+                        return json;
+                    }
+                }
+                SouthPowerInfo southPowerInfo = new SouthPowerInfo();
+                southPowerInfo.setOpenid(openid);
+                southPowerInfo.setBuildingId(buildingId);
+                southPowerInfo.setRoomId(roomId);
+                southPowerInfo.setPassword(password);
+                try {
+                    crawlPowerService.obtainSouthPower(southPowerInfo, true);
+                    json.put("success", VerifyStateEnum.Success);
+                } catch (PasswordErrorException e) {
+                    json.put("errmsg", VerifyStateEnum.ErrorPassword);
+                } catch (VerifyError e) {
+                    json.put("errmsg", e.toString());
+                }
+            }
+            return json;
+        }
+        else
+        {
+            json.put("errmsg",VerifyStateEnum.IllegalType);
+            return json;
+        }
+
     }
 
     /**
@@ -123,7 +176,7 @@ public class PowerController {
                 json.put("pwbind", VerifyStateEnum.Success);
                 List list = null;
                 //对页码进行判断，非法页码默认为1
-                boolean result = page.matches("[1-9]+");
+                boolean result = page.matches("[0-9]+");
                 int startPage = 1;
                 if (result) {
                     startPage = Integer.parseInt(page);
@@ -154,7 +207,7 @@ public class PowerController {
                     json.put("pwbind", VerifyStateEnum.Success);
                     List list = null;
                     //对页码进行判断，非法页码默认为1
-                    boolean result = page.matches("[1-9]+");
+                    boolean result = page.matches("[0-9]+");
                     int startPage = 1;
                     if (result) {
                         startPage = Integer.parseInt(page);
@@ -175,50 +228,6 @@ public class PowerController {
                 }
             }
 
-        }
-        return json;
-    }
-
-    @RequestMapping(value = "southpwbind", method = RequestMethod.POST)
-    @ResponseBody
-    public Object southPowerBind(@RequestParam(value = "openid") String openid,
-                                 @RequestParam(value = "buildingid") String buildingId,
-                                 @RequestParam(value = "roomid") String roomId,
-                                 @RequestParam(value = "password") String password) {
-        buildingId = buildingId.trim();
-        roomId = roomId.trim();
-        openid = openid.trim();
-        password = password.trim();
-        HashMap<String, Object> json = new HashMap<String, Object>();
-        //参数为空
-        if (buildingId.equals("") || roomId.equals("") || openid.equals("")) {
-            json.put("errmsg", VerifyStateEnum.Invalid);
-        }
-        //根据openid查询，不存在此用户
-        else if (userService.selectUserInfo(openid) == null) {
-            json.put("errmsg", VerifyStateEnum.Invalid);
-        } else {
-            PowerInfo powerInfo = userService.selectPowerInfo(openid);
-            if (powerInfo != null) {
-                int number = userService.deletePowerInfo(openid);
-                if (number == 0) {
-                    json.put("errmsg", VerifyStateEnum.Fail);//删除失败，即绑定失败
-                    return json;
-                }
-            }
-            SouthPowerInfo southPowerInfo = new SouthPowerInfo();
-            southPowerInfo.setOpenid(openid);
-            southPowerInfo.setBuildingId(buildingId);
-            southPowerInfo.setRoomId(roomId);
-            southPowerInfo.setPassword(password);
-            try {
-                crawlPowerService.obtainSouthPower(southPowerInfo, true);
-                json.put("pwbing", VerifyStateEnum.Success);
-            } catch (PasswordErrorException e) {
-                json.put("errmsg", VerifyStateEnum.ErrorPassword);
-            } catch (VerifyError e) {
-                json.put("errmsg", e.toString());
-            }
         }
         return json;
     }

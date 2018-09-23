@@ -4,6 +4,7 @@ import com.campus.dao.PowerDataDao;
 import com.campus.dao.UserDao;
 import com.campus.pojo.*;
 import com.campus.service.UserService;
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
@@ -396,6 +397,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public SouthPowerUseData selectFirstSouthPowerUse(SouthPowerInfo SouthPowerInfo) {
         return powerDataDao.selectFirstSouthPowerUse(SouthPowerInfo);
+    }
+
+    @Override
+    public List selectCardPlace(String account) {
+        return userDao.selectCardPlace(account);
     }
 
 }

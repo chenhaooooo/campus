@@ -218,4 +218,9 @@
 	<delete id="deleteSouthPowerInfo" >
 		delete from south_power_info where openid=#{openid}
 	</delete>
+
+
+	<select id="selectCardPlace" resultType="string">
+		SELECT place FROM card_data WHERE account=#{account} GROUP BY place;
+	</select>
 </mapper>

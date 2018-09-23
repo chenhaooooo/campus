@@ -62,7 +62,7 @@ public class DataController {
             json.put("errmsg", VerifyStateEnum.Invalid);
         } else {
             //对页码进行判断，出现非法页码默认为1
-            boolean result = page.matches("[1-9]+");
+            boolean result = page.matches("[0-9]+");
             int startPage = 1;
             if (result) {
                 startPage = Integer.parseInt(page);
@@ -88,7 +88,45 @@ public class DataController {
         return json;
 
     }
+    /**
+     * 获取校园卡消费记录详细
+     *
+     * @param openid
+     * 小程序用户的唯一标识
+     * @param page
+     * 页码
+     * @return
+     * 返回校园卡消费记录
+     */
+    @ResponseBody
+    @RequestMapping(value = "cardplace", method = RequestMethod.POST)
+    public Object cardPlace(@RequestParam(value = "openid") String openid) {
+        openid = openid.trim();
 
+        HashMap<String,Object> json = new HashMap<String,Object>();
+        //参数为空
+        if (openid.equals("")) {
+            json.put("errmsg", VerifyStateEnum.Invalid);
+        } else {
+
+            //查询出openid对应的校园卡信息
+            CardInfo cardInfo = userService.selectOpenidCardInfo(openid);
+            //校园卡信息不为空
+            if (cardInfo != null) {
+
+                List<CardData> list = userService.selectCardPlace(cardInfo.getAccount());
+                json.put("cardplace", list);
+            }
+            //校园卡信息为空，则未绑定校园卡信息
+            else {
+                json.put("errmsg", VerifyStateEnum.NoBindCard);
+            }
+
+        }
+
+        return json;
+
+    }
     /**
      * 更新校园卡数据
      *

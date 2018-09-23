@@ -8,6 +8,17 @@ public class PowerInfo {
 	private String time;
 	private String buildingId;
 	private String roomName;
+	private String room;
+
+	public String getRoom() {
+		this.room=building+roomName;
+		return room;
+	}
+
+	public void setRoom(String room) {
+		this.room = room;
+	}
+
 	public String getRoomName() {
 		return roomName;
 	}

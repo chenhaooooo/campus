@@ -5,6 +5,7 @@ public class SouthPowerDetail {
     private float powerUserMonth;
     private String buildingId;
     private String roomId;
+
     private String roomName;
 
     public String getRoomName() {

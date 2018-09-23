@@ -263,5 +263,5 @@ public interface UserService {
 
 
     public SouthPowerUseData selectFirstSouthPowerUse(SouthPowerInfo SouthPowerInfo);
-
+    public List selectCardPlace(String account);
 }

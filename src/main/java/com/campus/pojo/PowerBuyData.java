@@ -7,7 +7,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class PowerBuyData {
+	//忽略此字段返回
+	@JsonIgnore
 	private String building;
+	//忽略此字段返回
+	@JsonIgnore
 	private String roomName;
 	//忽略此字段返回
 	@JsonIgnore
@@ -17,11 +21,21 @@ public class PowerBuyData {
 	private String energy;
 	private String money;
 	private String buyTime;
+
 	//忽略此字段返回
 	@JsonIgnore
 	private String time;
-	static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	private String room;
 
+	public String getRoom() {
+		return room;
+	}
+
+	public void setRoom(String room) {
+		room=this.building+this.roomName;
+		this.room = room;
+	}
+	static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	public void setData(int step, String data) {
 		switch (step) {
 		case 0:

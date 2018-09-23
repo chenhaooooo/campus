@@ -36,7 +36,7 @@ public class AlterPasswordController {
      * @param newPassword
      * 新密码
      * @return
-     * 返回修改校园卡密码的结果
+     *  返回修改校园卡密码的结果
      */
     @ResponseBody
     @RequestMapping(value = "alterpwd", method = RequestMethod.POST)

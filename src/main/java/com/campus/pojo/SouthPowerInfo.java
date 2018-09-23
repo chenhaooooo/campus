@@ -15,7 +15,19 @@ public class SouthPowerInfo {
     private String roomId;
     private String password;
     private String time;
+    //忽略此字段返回
+    @JsonIgnore
     private String roomName;
+    private String room;;
+
+    public String getRoom() {
+        this.room = roomName;
+        return room;
+    }
+
+    public void setRoom(String room) {
+        this.room =roomName;
+    }
 
     public String getRoomName() {
         return roomName;

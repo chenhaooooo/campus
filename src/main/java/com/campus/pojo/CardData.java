@@ -87,6 +87,10 @@ public class CardData {
 			this.place="广州校区南苑饭堂";
 		}
 		this.price = Double.parseDouble(price);
+		if(this.place.equals("银行转账")&&this.price<0)
+		{
+			this.place="水电费充值";
+		}
 		this.money =Double.parseDouble(money);
 		this.number = Integer.parseInt(number);
 		this.status = status;
@@ -117,6 +121,10 @@ public class CardData {
 			break;
 		case 5:
 			this.price = Double.parseDouble(dt.replaceAll(",", ""));
+			if(this.place.equals("银行转帐")&&this.price<0)
+			{
+				this.place="水电费充值";
+			}
 			break;
 		case 6:
 			this.money =  Double.parseDouble(dt.replaceAll(",", ""));
@@ -156,6 +164,10 @@ public class CardData {
 			break;
 		case 6:
 			this.price =  Double.parseDouble(dt.replaceAll(",", "").trim());
+			if(this.place.equals("银行转账")&&this.price<0)
+			{
+				this.place="水电费充值";
+			}
 			break;
 		case 7:
 			this.money =  Double.parseDouble(dt.replaceAll(",", "").trim());

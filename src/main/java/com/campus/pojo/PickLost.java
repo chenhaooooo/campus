@@ -17,7 +17,6 @@ public class PickLost {
 	private String ctway;
 	private String message;
 	private String attribute;
-	@JsonIgnore
 	private String recentTime;
 	private String hidden;
 	private String time;

@@ -276,15 +276,9 @@ public class CrawlCardEtDaoImpl implements CrawlCardEtDao {
         if (matcher.find()) {
             money = matcher.group().substring(0, moneyXml.indexOf("元")).trim();
         }
-        String state = doc.select(".tttt > tbody:nth-child(1) > tr:nth-child(1) > th:nth-child(1) > "
-                + "table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(12) > td:nth-child(6)").text();
-
-        if (state.length() < 3) {
-            state = "正常";
-        } else {
-
-            state = state.substring(1);
-        }
+        String state = doc.select("body > table > tbody > tr > td > " +
+                "table > tbody > tr:nth-child(2) > th > table > tbody > tr > " +
+                "th > table > tbody > tr:nth-child(12) > td:nth-child(6)").text().trim();
         String name = doc.select("body > table > tbody > tr > td > table > tbody > tr:nth-child(2) > th > table > tbody"
                 + " > tr > th > table > tbody > tr:nth-child(2) > td:nth-child(2) > div").text().trim();
         String shortAccount = doc

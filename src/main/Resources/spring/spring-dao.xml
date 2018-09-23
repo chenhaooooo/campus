@@ -26,6 +26,10 @@
 		<property name="checkoutTimeout" value="10000" />
 		<!-- 当获取连接失败重试次数 -->
 		<property name="acquireRetryAttempts" value="2" />
+
+		<property name="testConnectionOnCheckin" value="false"/>
+
+		<property name="testConnectionOnCheckout" value="true"/>
 	</bean>
 
 	<!-- 3.配置SqlSessionFactory对象 -->

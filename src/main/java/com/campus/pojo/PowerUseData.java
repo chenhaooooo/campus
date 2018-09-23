@@ -7,18 +7,32 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class PowerUseData {
+	//忽略此字段返回
+	@JsonIgnore
 	private String building;
+	//忽略此字段返回
+	@JsonIgnore
 	private String roomName;
 	private String usePower;
 	private String residue;
 	private String totalUse;
 	private String totalBuy;
 	private String useTime;
+	private String room;
+
+	public String getRoom() {
+		room=this.building+this.roomName;
+		return room;
+	}
+
+	public void setRoom(String room) {
+		this.room = room;
+	}
+
 	//忽略此字段返回
 	@JsonIgnore
 	private String time;
 	static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
 	public void setData(int step, String data) {
 		switch (step) {
 		case 0:

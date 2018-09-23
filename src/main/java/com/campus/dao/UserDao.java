@@ -204,4 +204,5 @@ public interface UserDao {
     public SouthPowerInfo selectSouthPowerInfo(String openid);
     public int deletePowerInfo(String openid);
     public int deleteSouthPowerInfo(String openid);
+    public List selectCardPlace(String account);
 }

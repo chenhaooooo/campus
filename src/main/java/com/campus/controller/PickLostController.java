@@ -127,7 +127,7 @@ public class PickLostController {
             if (userInfo != null) {
                 //对页码进行正则匹配，防止出现非法页码
                 //若出现非法页码，则页码默认为1
-                boolean result = page.matches("[1-9]+");
+                boolean result = page.matches("[0-9]+");
                 int startPage = 1;
                 if (result) {
                     startPage = Integer.parseInt(page);

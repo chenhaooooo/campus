@@ -12,7 +12,7 @@ public class SouthPowerBuyData {
     static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 
-    DecimalFormat df   = new DecimalFormat("######0.00");
+    DecimalFormat df = new DecimalFormat("######0.00");
 
     //忽略此字段返回
     @JsonIgnore
@@ -20,6 +20,8 @@ public class SouthPowerBuyData {
     //忽略此字段返回
     @JsonIgnore
     private String roomId;
+    //忽略此字段返回
+    @JsonIgnore
     private String roomName;
     //忽略此字段返回
     @JsonIgnore
@@ -41,6 +43,16 @@ public class SouthPowerBuyData {
     private String time;
     private String buyType;
     private float energy;
+    private String room;
+
+    public String getRoom() {
+        room=this.roomName;
+        return room;
+    }
+
+    public void setRoom(String room) {
+        this.room = room;
+    }
 
     public float getEnergy() {
         return energy;
@@ -143,7 +155,8 @@ public class SouthPowerBuyData {
             this.downTime = sdf.format(sdf.parse(downTime));
         } catch (ParseException e) {
             e.printStackTrace();
-        };
+        }
+        ;
     }
 
     public String getTime() {

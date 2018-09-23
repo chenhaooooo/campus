@@ -20,10 +20,11 @@ import java.util.regex.Pattern;
 
 @Repository(value = "crawlSouthPowerEtDao")
 public class CrawlSouthPowerEtDaoImpl implements CrawlSouthPowerEtDao {
-    static String url = "http://172.18.2.42:8000/";
+    static String url = "http://southdkcx.vipgz1.idcfengye.com/";
     static float cost = 0.63f;
     static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-
+    static SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+    static SimpleDateFormat sdf3 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     @Override
     public HashMap login(SouthPowerInfo southPowerInfo) {
         String buildingId = southPowerInfo.getBuildingId();
@@ -118,7 +119,7 @@ public class CrawlSouthPowerEtDaoImpl implements CrawlSouthPowerEtDao {
         params.put("__LASTFOCUS", __LASTFOCUS);
         params.put("__VIEWSTATE", __VIEWSTATE);
         params.put("__EVENTVALIDATION", __EVENTVALIDATION);
-        params.put("hidtime", "2018-08-27 17:46:01");
+        params.put("hidtime",sdf3.format(new Date()));
 
         headers = new HashMap();
         headers.put("Cookie", cookie);
@@ -251,18 +252,24 @@ public class CrawlSouthPowerEtDaoImpl implements CrawlSouthPowerEtDao {
             Iterator it = list.iterator();
             LinkedList southList = new LinkedList();
             float balance = southPowerDetail.getBalance();
-            while (it.hasNext()) {
-                JSONArray list2 = JSONArray.fromObject(it.next().toString());
-                SouthPowerUseData southPowerUseData = new SouthPowerUseData();
-                southPowerUseData.setBuildingId(southPowerDetail.getBuildingId());
-                southPowerUseData.setRoomId(southPowerDetail.getRoomId());
-                southPowerUseData.setRoomName(southPowerDetail.getRoomName());
-                southPowerUseData.setMoney(Float.parseFloat(list2.get(5).toString().trim()));
-                southPowerUseData.setResidue(balance / cost);
-                southPowerUseData.setUseTime(list2.get(9).toString().trim());
-                southPowerUseData.setUsePower(Float.parseFloat(list2.get(5).toString().trim()) / cost);
-                balance = balance + Float.parseFloat(list2.get(5).toString().trim());
-                southList.add(southPowerUseData);
+            try {
+                while (it.hasNext()) {
+                    JSONArray list2 = JSONArray.fromObject(it.next().toString());
+                    SouthPowerUseData southPowerUseData = new SouthPowerUseData();
+                    southPowerUseData.setBuildingId(southPowerDetail.getBuildingId());
+                    southPowerUseData.setRoomId(southPowerDetail.getRoomId());
+                    southPowerUseData.setRoomName(southPowerDetail.getRoomName());
+                    southPowerUseData.setMoney(Float.parseFloat(list2.get(5).toString().trim()));
+                    southPowerUseData.setResidue(balance / cost);
+                    southPowerUseData.setUseTime(sdf3.format(sdf2.parse(list2.get(9).toString().trim())));
+                    southPowerUseData.setUsePower(Float.parseFloat(list2.get(5).toString().trim()) / cost);
+                    balance = balance + Float.parseFloat(list2.get(5).toString().trim());
+                    southList.add(southPowerUseData);
+                }
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
             }
             return southList;
         } else {
@@ -318,16 +325,25 @@ public class CrawlSouthPowerEtDaoImpl implements CrawlSouthPowerEtDao {
                 JSONArray list = JSONArray.fromObject(temp);
                 Iterator it = list.iterator();
                 LinkedList southList = new LinkedList();
+                try{
                 while (it.hasNext()) {
-                    JSONArray list2 = JSONArray.fromObject(it.hasNext());
-                    SouthPowerUseData southPowerUseData = new SouthPowerUseData();
-                    southPowerUseData.setBuildingId(buildingId);
-                    southPowerUseData.setRoomId(roomId);
-                    southPowerUseData.setMoney(Float.parseFloat(list2.get(5).toString().trim()));
-                    southPowerUseData.setResidue(0);
-                    southPowerUseData.setUseTime(list2.get(9).toString().trim());
-                    southPowerUseData.setUsePower(Float.parseFloat(list2.get(5).toString().trim()) / cost);
-                    southList.add(southPowerUseData);
+
+                        JSONArray list2 = JSONArray.fromObject(it.hasNext());
+                        SouthPowerUseData southPowerUseData = new SouthPowerUseData();
+                        southPowerUseData.setBuildingId(buildingId);
+                        southPowerUseData.setRoomId(roomId);
+                        southPowerUseData.setMoney(Float.parseFloat(list2.get(5).toString().trim()));
+                        southPowerUseData.setResidue(0);
+                        southPowerUseData.setUseTime(sdf3.format(sdf2.parse(list2.get(9).toString().trim())));
+                        southPowerUseData.setUsePower(Float.parseFloat(list2.get(5).toString().trim()) / cost);
+                        southList.add(southPowerUseData);
+
+
+                }
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
                 }
                 return southList;
             } else {
@@ -388,23 +404,31 @@ public class CrawlSouthPowerEtDaoImpl implements CrawlSouthPowerEtDao {
             JSONArray list = JSONArray.fromObject(temp);
             Iterator it = list.iterator();
             LinkedList southList = new LinkedList();
+            try
+            {
             while (it.hasNext()) {
-                JSONArray list2 = JSONArray.fromObject(it.next().toString());
+                    JSONArray list2 = JSONArray.fromObject(it.next().toString());
+                    SouthPowerBuyData southPowerBuyData = new SouthPowerBuyData();
+                    southPowerBuyData.setBuildingId(buildingId);
+                    southPowerBuyData.setRoomId(roomId);
+                    southPowerBuyData.setRoomName(list2.get(0).toString().trim());
+                    southPowerBuyData.setAmmeter(list2.get(1).toString().trim());
+                    southPowerBuyData.setBuyType(list2.get(2).toString().trim());
+                    southPowerBuyData.setNumber(Integer.parseInt(list2.get(3).toString().trim()));
+                    southPowerBuyData.setMoney(Float.parseFloat(list2.get(4).toString().trim()));
+                    southPowerBuyData.setBuyTime(sdf3.format(sdf2.parse(list2.get(5).toString().trim())));
+                    southPowerBuyData.setBuyer(list2.get(6).toString().trim());
+                    southPowerBuyData.setDown(list2.get(7).toString().trim());
+                    southPowerBuyData.setDownTime(sdf3.format(sdf2.parse(list2.get(8).toString().trim())));
+                    southPowerBuyData.setEnergy(Float.parseFloat(list2.get(4).toString().trim())/cost);
+                    southList.add(southPowerBuyData);
 
-                SouthPowerBuyData southPowerBuyData = new SouthPowerBuyData();
-                southPowerBuyData.setBuildingId(buildingId);
-                southPowerBuyData.setRoomId(roomId);
-                southPowerBuyData.setRoomName(list2.get(0).toString().trim());
-                southPowerBuyData.setAmmeter(list2.get(1).toString().trim());
-                southPowerBuyData.setBuyType(list2.get(2).toString().trim());
-                southPowerBuyData.setNumber(Integer.parseInt(list2.get(3).toString().trim()));
-                southPowerBuyData.setMoney(Float.parseFloat(list2.get(4).toString().trim()));
-                southPowerBuyData.setBuyTime(list2.get(5).toString().trim());
-                southPowerBuyData.setBuyer(list2.get(6).toString().trim());
-                southPowerBuyData.setDown(list2.get(7).toString().trim());
-                southPowerBuyData.setDownTime(list2.get(8).toString().trim());
-                southPowerBuyData.setEnergy(Float.parseFloat(list2.get(4).toString().trim())/cost);
-                southList.add(southPowerBuyData);
+
+            }
+            }
+                catch (Exception e)
+            {
+                e.printStackTrace();
             }
             return southList;
         } else {
