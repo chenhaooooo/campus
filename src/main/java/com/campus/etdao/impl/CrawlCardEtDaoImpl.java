@@ -139,6 +139,7 @@ public class CrawlCardEtDaoImpl implements CrawlCardEtDao {
         list = new LinkedList<CardData>();
         // 保存首页数据
         links = doc.getElementsByClass("listbg").select("td");
+        System.out.println(content);
         if (links != null) {
             try {
                 list = CardDataUtil.setData(links);
